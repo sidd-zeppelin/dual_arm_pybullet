@@ -30,3 +30,17 @@ dual_arm_pybullet/
     
 ```
 
+## what all has been done:
+- the environment has been setup. Ghost gripper and colliding gripper has been setup.
+- press j for previous grasp, k for next grasp and l for random grasp in pybullet
+
+## current bugs:
+- i suspect that the ghost and collider is not synced up, because i can see that the gripper does not collide but in console it rejects it.
+
+## further developments:
+
+- next, to assign which grasp for which arm 
+- solve IK
+- make sure that the arm reaches the grasp effectively
+- establish that the arms can hold the object.
+- introduce coefficient of friction for the object and the gripper.
