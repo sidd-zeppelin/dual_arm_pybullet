@@ -1,0 +1,51 @@
+simulation:
+  gui: true
+  timestep: 0.004166
+
+robots:
+
+  left:
+    urdf: "franka_panda/panda.urdf"
+
+    position:
+      - -0.85
+      - 0.0
+      - 0.0
+
+    quaternion:
+      - 0.0
+      - 0.0
+      - 1.0
+      - 0.0
+
+  right:
+    urdf: "franka_panda/panda.urdf"
+
+    position:
+      - 0.85
+      - 0.0
+      - 0.0
+
+    quaternion:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 1.0
+
+object:
+
+  mesh: "../assets/meshes/1.obj"
+
+  position:
+    - 0.0
+    - 0.0
+    - 0.75
+
+  quaternion:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+
+  scale: 1.0
+  mass: 0.1
