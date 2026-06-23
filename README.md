@@ -33,9 +33,11 @@ dual_arm_pybullet/
 ## what all has been done:
 - the environment has been setup. Ghost gripper and colliding gripper has been setup.
 - press j for previous grasp, k for next grasp and l for random grasp in pybullet
+- fixed collision checker.
+- added when pressed next, it will show valid next grasp, same for previous, random  can show anything.
 
 ## current bugs:
-- i suspect that the ghost and collider is not synced up, because i can see that the gripper does not collide but in console it rejects it.
+- ~~i suspect that the ghost and collider is not synced up, because i can see that the gripper does not collide but in console it rejects it.~~
 
 ## further developments:
 
