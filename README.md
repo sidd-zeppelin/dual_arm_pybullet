@@ -35,13 +35,16 @@ dual_arm_pybullet/
 - press j for previous grasp, k for next grasp and l for random grasp in pybullet
 - fixed collision checker.
 - added when pressed next, it will show valid next grasp, same for previous, random  can show anything.
+- grasp index assignment to individual arm done.
 
-## current bugs:
+## current bugs / todo:
 - ~~i suspect that the ghost and collider is not synced up, because i can see that the gripper does not collide but in console it rejects it.~~
+- solve IK and make sure that the joint limits are not reaching extremums.
+- move to a pregrasp position and then attempt to have the arms reachout.
 
 ## further developments:
 
-- next, to assign which grasp for which arm 
+- ~~next, to assign which grasp for which arm ~~
 - solve IK
 - make sure that the arm reaches the grasp effectively
 - establish that the arms can hold the object.

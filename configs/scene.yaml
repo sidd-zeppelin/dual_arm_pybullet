@@ -34,8 +34,8 @@ robots:
 
 object:
 
-  mesh: "../assets/meshes/1.obj"
-  grasps: "../assets/grasps/1.h5"
+  mesh: "../assets/meshes/37.obj"
+  grasps: "../assets/grasps/37.h5"
   grasp_idx: 50
 
   position:
