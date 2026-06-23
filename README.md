@@ -17,14 +17,24 @@ dual_arm_pybullet/
 
             - dataset/
                 - dg16m.py  (contains function to load grasps)
+            
+            -grasping/
+                - arm_assignment.py (Class and helpers for arm assignment)
+                - collision_checker.py (Class for generating a collision checker)
+                - collision_gripper.py (class for generating an invisible gripper for collision checks)
+                - visualizer.py (grasp visualisation helpers)
 
             - simulator/
                 - objects.py (function to load the object in the simulator)
                 - robots.py  (function to load the robot in the simulator)
                 - world.py   (class for the world to load in the simulator)
+                - gripper.py (for visualising the ghost gripper)
+                - highlight.py (helper for highlighting an object)
 
             - utils/
                 - config.py     (connects the settings from config.yaml to the code)
+                - transform.py (contains helps for pose to matrix and viceversa trasnformations)
+                - visualisation.py (adds axes to the given frame.)
 
         - main.py
     
