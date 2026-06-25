@@ -56,7 +56,62 @@ dual_arm_pybullet/
     press a to assign the grasp to the arm highlighted.
 
     ```
-    
+
+
+## Pipeline Overview
+
+1. Load the simulation configuration from `scene.yaml`.
+
+2. Create the PyBullet world and initialize the simulation.
+
+3. Load the left and right Panda robots at their respective base positions.
+
+4. Initialize inverse kinematics solvers and open both robot grippers.
+
+5. Spawn the target object into the scene.
+
+6. Create a ghost gripper for visualization and a collision gripper for collision checking.
+
+7. Initialize the collision checker between the collision gripper and the object.
+
+8. Load all candidate grasps from the DG16M grasp dataset.
+
+9. Create the grasp-to-hand transform that aligns the DG16M grasp frame with the Panda hand frame.
+
+10. Initialize the grasp visualizer using the dataset, object, and gripper models.
+
+11. Initialize the arm assignment manager.
+
+12. Highlight the left robot as the active robot for grasp assignment.
+
+13. Display the initial grasp selected in the configuration file.
+
+14. Evaluate the displayed grasp for object penetration and report whether it is valid.
+
+15. Enter the simulation loop and continuously advance the physics simulation.
+
+16. Listen for keyboard inputs to browse candidate grasps.
+
+    * **L** : Show a random grasp.
+    * **K** : Show the next collision-free grasp.
+    * **J** : Show the previous collision-free grasp.
+
+17. Press **A** to assign the currently displayed grasp to the active robot.
+
+18. After the first assignment, switch the active robot from the left arm to the right arm.
+
+19. After both grasps have been assigned, hide the visualization grippers and begin inverse kinematics.
+
+20. Extract the desired hand pose for each robot from the stored assignment.
+
+21. Convert each desired hand orientation from a rotation matrix to a quaternion.
+
+22. Solve inverse kinematics for both Panda robots to obtain joint configurations.
+
+23. Apply the computed joint configurations to both robots, moving them to their assigned grasp poses.
+
+24. Stop the assignment pipeline after both robots reach their target configurations.
+
 
 
 ## what all has been done:
