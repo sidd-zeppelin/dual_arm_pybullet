@@ -194,8 +194,13 @@ def main():
       
             # ---------------- Left ----------------
 
-            left_position = assignment.left_hand_T[:3, 3]
-            left_rotation = assignment.left_hand_T[:3, :3]
+            T_target = assignment.left_hand_T.copy()
+
+            # move 2 cm along the hand's local Y-axis
+            T_target[:3, 3] += 0.107 * T_target[:3, 2]
+
+            left_position = T_target[:3, 3]
+            left_rotation = T_target[:3, :3]
 
             left_quaternion = Rotation.from_matrix(
                 left_rotation
@@ -208,8 +213,12 @@ def main():
 
             # ---------------- Right ----------------
 
-            right_position = assignment.right_hand_T[:3, 3]
-            right_rotation = assignment.right_hand_T[:3, :3]
+            T_target = assignment.right_hand_T.copy()
+
+            T_target[:3, 3] += 0.107 * T_target[:3, 2]
+
+            right_position = T_target[:3, 3]
+            right_rotation = T_target[:3, :3]
 
             right_quaternion = Rotation.from_matrix(
                 right_rotation

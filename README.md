@@ -121,12 +121,13 @@ dual_arm_pybullet/
 - added when pressed next, it will show valid next grasp, same for previous, random  can show anything.
 - grasp index assignment to individual arm done.
 - IK solving is done and arms perfectly reach the grasp
+- The offset that was between ghost gripper and end effector, ive fixed it by hardcoding the translation.
 
 ## current bugs / todo:
 - ~~i suspect that the ghost and collider is not synced up, because i can see that the gripper does not collide but in console it rejects it.~~
 - ~~solve IK and make sure that the joint limits are not reaching extremums.~~
 - m~~ove to a pregrasp position and then attempt to have the arms reachout.~~
-- for some reason, the EE pose is behind the ghost gripper visualisation, fix this.
+- ~~for some reason, the EE pose is behind the ghost gripper visualisation, fix this.~~
 
 ## further developments:
 
