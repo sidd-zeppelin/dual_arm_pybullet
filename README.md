@@ -41,6 +41,24 @@ dual_arm_pybullet/
     
 ```
 
+## How to run:
+- clone the repo first.
+- cd `dual_arm_pybullet`
+- run `uv venv`
+- run `uv sync`
+- run `cd src`
+- run `python main.py`
+- The Pybullet window appears. 
+    ```
+    press k for next acceptable grasp.
+    press j for prev acceptable grasp.
+    press l for random grasp (acceptable and rejected).
+    press a to assign the grasp to the arm highlighted.
+
+    ```
+    
+
+
 ## what all has been done:
 - the environment has been setup. Ghost gripper and colliding gripper has been setup.
 - press j for previous grasp, k for next grasp and l for random grasp in pybullet
