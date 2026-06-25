@@ -23,6 +23,7 @@ dual_arm_pybullet/
                 - collision_checker.py (Class for generating a collision checker)
                 - collision_gripper.py (class for generating an invisible gripper for collision checks)
                 - visualizer.py (grasp visualisation helpers)
+                - ik.py (Class for IK Solver)
 
             - simulator/
                 - objects.py (function to load the object in the simulator)
@@ -46,16 +47,18 @@ dual_arm_pybullet/
 - fixed collision checker.
 - added when pressed next, it will show valid next grasp, same for previous, random  can show anything.
 - grasp index assignment to individual arm done.
+- IK solving is done and arms perfectly reach the grasp
 
 ## current bugs / todo:
 - ~~i suspect that the ghost and collider is not synced up, because i can see that the gripper does not collide but in console it rejects it.~~
-- solve IK and make sure that the joint limits are not reaching extremums.
-- move to a pregrasp position and then attempt to have the arms reachout.
+- ~~solve IK and make sure that the joint limits are not reaching extremums.~~
+- m~~ove to a pregrasp position and then attempt to have the arms reachout.~~
+- for some reason, the EE pose is behind the ghost gripper visualisation, fix this.
 
 ## further developments:
 
 - ~~next, to assign which grasp for which arm ~~
-- solve IK
-- make sure that the arm reaches the grasp effectively
+- ~~solve IK~~
+- ~~make sure that the arm reaches the grasp effectively~~
 - establish that the arms can hold the object.
 - introduce coefficient of friction for the object and the gripper.

@@ -15,8 +15,8 @@ robots:
     quaternion:
       - 0.0
       - 0.0
-      - 1.0
       - 0.0
+      - 1.0
 
   right:
     urdf: "franka_panda/panda.urdf"
@@ -29,8 +29,8 @@ robots:
     quaternion:
       - 0.0
       - 0.0
-      - 0.0
       - 1.0
+      - 0.0
 
 object:
 
@@ -41,7 +41,7 @@ object:
   position:
     - 0.0
     - 0.0
-    - 0.75
+    - 0.5
 
   quaternion:
     - 0.0
