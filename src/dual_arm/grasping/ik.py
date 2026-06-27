@@ -7,12 +7,26 @@ class PandaIK:
 
     EE_LINK = 11
 
-    def __init__(self, robot_id):
+    def __init__(self, robot_id, config):
 
             self.robot_id = robot_id
 
-            self.lower_limits = []
-            self.upper_limits = []
+            self.lower_limits = [config["joint1"]["limit"]["lower"],
+                                 config["joint2"]["limit"]["lower"],
+                                 config["joint3"]["limit"]["lower"],
+                                 config["joint4"]["limit"]["lower"],
+                                 config["joint5"]["limit"]["lower"],
+                                 config["joint6"]["limit"]["lower"],
+                                 config["joint7"]["limit"]["lower"]
+                                 ]
+            self.upper_limits = [config["joint1"]["limit"]["upper"],
+                                 config["joint2"]["limit"]["upper"],
+                                 config["joint3"]["limit"]["upper"],
+                                 config["joint4"]["limit"]["upper"],
+                                 config["joint5"]["limit"]["upper"],
+                                 config["joint6"]["limit"]["upper"],
+                                 config["joint7"]["limit"]["upper"]
+                                 ]
             self.joint_ranges = []
             self.rest_poses = [
                                 0.0,
@@ -41,7 +55,7 @@ class PandaIK:
         quaternion
     ):
 
-        joint_values = p.calculateInverseKinematics(
+        joint_values = p.calculateInverseKinematics2(
             bodyUniqueId=self.robot_id,
             endEffectorLinkIndex=self.EE_LINK,
             targetPosition=position,

@@ -128,6 +128,7 @@ dual_arm_pybullet/
 - ~~solve IK and make sure that the joint limits are not reaching extremums.~~
 - m~~ove to a pregrasp position and then attempt to have the arms reachout.~~
 - ~~for some reason, the EE pose is behind the ghost gripper visualisation, fix this.~~
+- to add self collision filters. 
 
 ## further developments:
 

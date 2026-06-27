@@ -25,6 +25,11 @@ def main():
         "../configs/scene.yaml"
     )
     
+    joint_limits = load_config(
+        "../configs/joint_limits.yaml"
+    )
+    
+    
     world = World(config)
 
     left_robot = load_robot(
@@ -35,8 +40,10 @@ def main():
         config["robots"]["right"]
     )
 
-    rightIK = PandaIK(right_robot)
-    leftIK = PandaIK(left_robot)
+    rightIK = PandaIK(right_robot,
+                      joint_limits)
+    leftIK = PandaIK(left_robot,
+                     joint_limits)
     leftIK.open_gripper()
     rightIK.open_gripper()
               
