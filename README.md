@@ -1,9 +1,14 @@
 <div align="center">
-  <h1>🤖 Dual Arm PyBullet Simulation</h1>
+  <h1>Dual Arm PyBullet Simulation</h1>
   <p><strong>Interactive simulation environment for dual-arm grasping and manipulation research.</strong></p>
   <img src="https://img.shields.io/badge/Python-3.13+-blue.svg" alt="Python Version">
   <img src="https://img.shields.io/badge/PyBullet-Simulation-orange.svg" alt="PyBullet">
   <img src="https://img.shields.io/badge/Robotics-Franka%20Panda-lightgrey.svg" alt="Robotics">
+</div>
+
+<br>
+<div align="center">
+  <img src="img/setup.png" alt="Dual Arm Simulation Setup" width="80%">
 </div>
 
 ---
@@ -13,6 +18,14 @@
 This repository provides a highly structured, interactive **PyBullet simulation environment** designed for dual-arm grasping tasks using two Franka Panda manipulators. 
 
 It allows researchers and developers to intuitively load object meshes, visualize and evaluate candidate grasps from the DG16M dataset, assign them interactively to specific arms, and seamlessly compute Inverse Kinematics (IK) to physically drive the robots into pre-grasp configurations.
+
+---
+
+## 🎥 Demo
+
+<div align="center">
+  <video src="img/demo.webm" controls="controls" muted="muted" autoplay="autoplay" width="80%"></video>
+</div>
 
 ---
 
@@ -76,6 +89,8 @@ Once the simulation starts, use the following keyboard commands to interact with
 
 | Key | Action |
 | --- | ------ |
+| **`Y`** | Progress to the next simulation phase (e.g., start assignment, execute IK). |
+| **`R`** | Instantly **restart** the entire simulation from scratch. |
 | **`K`** | Show the **next** collision-free grasp. |
 | **`J`** | Show the **previous** collision-free grasp. |
 | **`L`** | Show a **random** grasp (may be accepted or rejected). |
@@ -96,6 +111,8 @@ Once the simulation starts, use the following keyboard commands to interact with
 ## 📝 Roadmap / To Do
 
 - [x] Add self-collision filters individually for each arm.
+- [x] Configure bimanual humanoid torso setup with mirrored outward-facing kinematics.
+- [x] Implement mathematical grasp target plunging for IK solvers.
 - [ ] Establish grasping sequence (approaching the object, closing the grippers, and lifting).
 - [ ] Introduce accurate coefficients of friction for the object and the gripper pads.
 

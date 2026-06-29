@@ -8,29 +8,29 @@ robots:
     urdf: "franka_panda/panda.urdf"
 
     position:
-      - -0.85
-      - 0.0
-      - 0.0
+      - -0.1
+      - -0.6
+      - 1.5
 
     quaternion:
+      - 0.9238795
       - 0.0
+      - -0.3826834
       - 0.0
-      - 0.0
-      - 1.0
 
   right:
     urdf: "franka_panda/panda.urdf"
 
     position:
-      - 0.85
-      - 0.0
-      - 0.0
+      - 0.1
+      - -0.6
+      - 1.5
 
     quaternion:
       - 0.0
+      - -0.9238795
       - 0.0
-      - 1.0
-      - 0.0
+      - -0.3826834
 
 object:
 
@@ -41,7 +41,7 @@ object:
   position:
     - 0.0
     - 0.0
-    - 0.5
+    - 0.75
 
   quaternion:
     - 0.0
