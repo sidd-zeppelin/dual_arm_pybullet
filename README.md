@@ -24,7 +24,7 @@ It allows researchers and developers to intuitively load object meshes, visualiz
 ## 🎥 Demo
 
 <div align="center">
-  <video src="img/demo.webm" controls="controls" muted="muted" autoplay="autoplay" width="80%"></video>
+  <img src="img/demo.gif" alt="Dual Arm Grasping Demo" width="80%">
 </div>
 
 ---
