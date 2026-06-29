@@ -13,6 +13,7 @@ class World:
 
         if gui:
             self.client = p.connect(p.GUI)
+            p.configureDebugVisualizer(p.COV_ENABLE_GUI, 0)
         else:
             self.client = p.connect(p.DIRECT)
 
@@ -24,7 +25,7 @@ class World:
 
         p.loadURDF("plane.urdf")
         
-        # Load a standard PyBullet table
+        # table
         self.table_id = p.loadURDF(
             "table/table.urdf", 
             basePosition=[0, 0, 0], 
