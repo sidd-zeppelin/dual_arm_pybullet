@@ -17,8 +17,6 @@ class PandaIK:
             self.upper_limits = []
             self.joint_ranges = []
             self.rest_poses = []
-            
-            # The custom config has limits for the first 7 joints
             custom_lower = [config["joint1"]["limit"]["lower"],
                             config["joint2"]["limit"]["lower"],
                             config["joint3"]["limit"]["lower"],
@@ -37,7 +35,6 @@ class PandaIK:
                             
             custom_rest = [0.0, -1.5, 0.0, -2.8, 0.0, 1.571, 0.785]
             
-            # Mirror the kinematics for the left arm to maintain physical symmetry
             base_pos, _ = p.getBasePositionAndOrientation(robot_id)
             if base_pos[0] < 0:
                 custom_rest = [-x if i in [0, 2, 4, 6] else x for i, x in enumerate(custom_rest)]
@@ -49,13 +46,11 @@ class PandaIK:
                 info = p.getJointInfo(robot_id, j)
                 if info[2] != p.JOINT_FIXED:
                     if dof_idx < 7:
-                        # Use custom limits for arm
                         self.lower_limits.append(custom_lower[dof_idx])
                         self.upper_limits.append(custom_upper[dof_idx])
                         self.joint_ranges.append(custom_upper[dof_idx] - custom_lower[dof_idx])
                         self.rest_poses.append(custom_rest[dof_idx])
                     else:
-                        # Use default limits for fingers (and open them by default for rest pose)
                         lower = info[8]
                         upper = info[9]
                         self.lower_limits.append(lower)
@@ -150,3 +145,27 @@ class PandaIK:
             link_state[4],
             link_state[5]
         )
+
+def compute_ik_targets(assignment, leftIK, rightIK):
+    from scipy.spatial.transform import Rotation
+    T_target = assignment.left_hand_T.copy()
+    
+    T_target[:3, 3] += (0.107 + 0.025) * T_target[:3, 2]
+
+    left_position = T_target[:3, 3]
+    left_rotation = T_target[:3, :3]
+    left_quaternion = Rotation.from_matrix(left_rotation).as_quat()
+
+    left_q = leftIK.solve(left_position, left_quaternion)
+
+    T_target = assignment.right_hand_T.copy()
+    
+    T_target[:3, 3] += (0.107 + 0.025) * T_target[:3, 2]
+
+    right_position = T_target[:3, 3]
+    right_rotation = T_target[:3, :3]
+    right_quaternion = Rotation.from_matrix(right_rotation).as_quat()
+
+    right_q = rightIK.solve(right_position, right_quaternion)
+
+    return left_q, right_q

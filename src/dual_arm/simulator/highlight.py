@@ -1,3 +1,4 @@
+# pyrefly: ignore [missing-import]
 import pybullet as p
 
 def highlight_robot(
