@@ -1,3 +1,5 @@
+
+# pyrefly: ignore [missing-import]
 import pybullet as p
 
 

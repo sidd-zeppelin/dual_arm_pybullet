@@ -1,6 +1,7 @@
-# pyrefly: ignore [missing-import]
+
 
 import time
+# pyrefly: ignore [missing-import]
 import pybullet as p
 from scipy.spatial.transform import Rotation
 import numpy as np
@@ -57,10 +58,29 @@ def main():
         config["object"]
     )
     
+    # Dynamically adjust object height based on AABB
+    table_aabb = p.getAABB(world.table_id)
+    table_z_max = table_aabb[1][2]
+    
+    obj_aabb = p.getAABB(object_id)
+    obj_z_min = obj_aabb[0][2]
+    
+    # Calculate how much we need to shift the object up/down 
+    # to place its bottom exactly 5cm above the table's top
+    current_pos, current_quat = p.getBasePositionAndOrientation(object_id)
+    z_offset = (table_z_max + 0.05) - obj_z_min
+    new_pos = (current_pos[0], current_pos[1], current_pos[2] + z_offset)
+    
+    p.resetBasePositionAndOrientation(object_id, new_pos, current_quat)
+    
     ghost = GhostGripper()
     collision_gripper = CollisionGripper()
     ghost_pos, ghost_quat = p.getBasePositionAndOrientation(ghost.body_id)
     p.resetBasePositionAndOrientation(collision_gripper.body_id, ghost_pos, ghost_quat)
+    
+    print("Waiting for object to stabilize on the table...")
+    for _ in range(480):
+        world.step()
         
     checker = CollisionChecker(
         collision_gripper.body_id,
@@ -212,9 +232,9 @@ def main():
             # ---------------- Left ----------------
 
             T_target = assignment.left_hand_T.copy()
-
-            # move 10.7 cm BACKWARD along the hand's local Z-axis for pre-grasp
-            T_target[:3, 3] -= 0.107 * T_target[:3, 2]
+            
+            # 0.107 for wrist->TCP alignment + 0.025 plunge
+            T_target[:3, 3] += (0.107 + 0.025) * T_target[:3, 2]
 
             left_position = T_target[:3, 3]
             left_rotation = T_target[:3, :3]
@@ -231,9 +251,9 @@ def main():
             # ---------------- Right ----------------
 
             T_target = assignment.right_hand_T.copy()
-
-            # move 10.7 cm BACKWARD along the hand's local Z-axis for pre-grasp
-            T_target[:3, 3] -= 0.107 * T_target[:3, 2]
+            
+            # 0.107 for wrist->TCP alignment + 0.025 plunge
+            T_target[:3, 3] += (0.107 + 0.01) * T_target[:3, 2]
 
             right_position = T_target[:3, 3]
             right_rotation = T_target[:3, :3]
@@ -257,9 +277,5 @@ def main():
             config["simulation"]["timestep"]
         )
         
-    # debug 
-    # print(grasp.shape)
-    # print(grasp)
-
 if __name__ == "__main__":
     main()

@@ -1,3 +1,5 @@
+
+# pyrefly: ignore [missing-import]
 import pybullet as p
 import numpy as np
 from dual_arm.utils.transform import pose_to_matrix
@@ -33,7 +35,12 @@ class PandaIK:
                             config["joint6"]["limit"]["upper"],
                             config["joint7"]["limit"]["upper"]]
                             
-            custom_rest = [0.0, -0.785, 0.0, -2.356, 0.0, 1.571, 0.785]
+            custom_rest = [0.0, -1.5, 0.0, -2.8, 0.0, 1.571, 0.785]
+            
+            # Mirror the kinematics for the left arm to maintain physical symmetry
+            base_pos, _ = p.getBasePositionAndOrientation(robot_id)
+            if base_pos[0] < 0:
+                custom_rest = [-x if i in [0, 2, 4, 6] else x for i, x in enumerate(custom_rest)]
             
             num_joints = p.getNumJoints(robot_id)
             dof_idx = 0
@@ -94,6 +101,13 @@ class PandaIK:
                 self.robot_id,
                 joint,
                 joint_values[joint]
+            )
+            p.setJointMotorControl2(
+                bodyIndex=self.robot_id,
+                jointIndex=joint,
+                controlMode=p.POSITION_CONTROL,
+                targetPosition=joint_values[joint],
+                force=500
             )
             
     def open_gripper(self):
