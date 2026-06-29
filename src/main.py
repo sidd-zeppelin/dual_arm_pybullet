@@ -1,3 +1,5 @@
+# pyrefly: ignore [missing-import]
+
 import time
 import pybullet as p
 from scipy.spatial.transform import Rotation
@@ -18,6 +20,7 @@ from dual_arm.grasping.arm_assignment import AssignmentManager
 from dual_arm.simulator.highlight import highlight_robot
 from dual_arm.grasping.ik import PandaIK
 from dual_arm.utils.visualization import draw_frame
+from dual_arm.simulator.filters import setup_self_collision_filters
 
 def main():
 
@@ -35,10 +38,12 @@ def main():
     left_robot = load_robot(
         config["robots"]["left"]
     )
+    setup_self_collision_filters(left_robot)
 
     right_robot = load_robot(
         config["robots"]["right"]
     )
+    setup_self_collision_filters(right_robot)
 
     rightIK = PandaIK(right_robot,
                       joint_limits)
@@ -148,6 +153,11 @@ def main():
 
                 ghost.hide()
                 collision_gripper.hide()
+                
+                highlight_robot(
+                    right_robot,
+                    [1, 1, 1, 1]
+                )
 
         if (
             ord('l') in keys
@@ -203,8 +213,8 @@ def main():
 
             T_target = assignment.left_hand_T.copy()
 
-            # move 2 cm along the hand's local Y-axis
-            T_target[:3, 3] += 0.107 * T_target[:3, 2]
+            # move 10.7 cm BACKWARD along the hand's local Z-axis for pre-grasp
+            T_target[:3, 3] -= 0.107 * T_target[:3, 2]
 
             left_position = T_target[:3, 3]
             left_rotation = T_target[:3, :3]
@@ -222,7 +232,8 @@ def main():
 
             T_target = assignment.right_hand_T.copy()
 
-            T_target[:3, 3] += 0.107 * T_target[:3, 2]
+            # move 10.7 cm BACKWARD along the hand's local Z-axis for pre-grasp
+            T_target[:3, 3] -= 0.107 * T_target[:3, 2]
 
             right_position = T_target[:3, 3]
             right_rotation = T_target[:3, :3]

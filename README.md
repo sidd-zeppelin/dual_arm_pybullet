@@ -1,139 +1,108 @@
-# Dual Arm Pybullet Simulation Environment for Dual Arm Grasping
+<div align="center">
+  <h1>🤖 Dual Arm PyBullet Simulation</h1>
+  <p><strong>Interactive simulation environment for dual-arm grasping and manipulation research.</strong></p>
+  <img src="https://img.shields.io/badge/Python-3.13+-blue.svg" alt="Python Version">
+  <img src="https://img.shields.io/badge/PyBullet-Simulation-orange.svg" alt="PyBullet">
+  <img src="https://img.shields.io/badge/Robotics-Franka%20Panda-lightgrey.svg" alt="Robotics">
+</div>
 
-## File Structure:
-```
+---
+
+## 📖 Overview
+
+This repository provides a highly structured, interactive **PyBullet simulation environment** designed for dual-arm grasping tasks using two Franka Panda manipulators. 
+
+It allows researchers and developers to intuitively load object meshes, visualize and evaluate candidate grasps from the DG16M dataset, assign them interactively to specific arms, and seamlessly compute Inverse Kinematics (IK) to physically drive the robots into pre-grasp configurations.
+
+---
+
+## 🚀 Features
+
+- **Interactive Grasp Selection**: Visually explore thousands of grasp poses via keyboard controls.
+- **Physics-Based Collision Checking**: Only valid, collision-free grasps are filtered for the user.
+- **Dual Arm Coordination**: Built-in state machine for assigning grasps independently to the left and right arms.
+- **Robust Inverse Kinematics (IK)**: Automatically solves and moves both arms to safe pre-grasp positions respecting joint limits.
+- **Configuration-Driven**: Easily swap out objects, URDFs, and offsets via `configs/scene.yaml`.
+
+---
+
+## 📂 File Structure
+
+```text
 dual_arm_pybullet/
-
-    - assets/
-        - grasps/ (contains decoupled grasp files)
-        - meshes/ (contains .obj files for the meshes)
-        - urdf/ 
-
-    - configs/
-        -scene.yaml (settings for the scene in simulator)
-
-    - src/
-        - dual_arm/
-
-            - dataset/
-                - dg16m.py  (contains function to load grasps)
-            
-            -grasping/
-                - arm_assignment.py (Class and helpers for arm assignment)
-                - collision_checker.py (Class for generating a collision checker)
-                - collision_gripper.py (class for generating an invisible gripper for collision checks)
-                - visualizer.py (grasp visualisation helpers)
-                - ik.py (Class for IK Solver)
-
-            - simulator/
-                - objects.py (function to load the object in the simulator)
-                - robots.py  (function to load the robot in the simulator)
-                - world.py   (class for the world to load in the simulator)
-                - gripper.py (for visualising the ghost gripper)
-                - highlight.py (helper for highlighting an object)
-
-            - utils/
-                - config.py     (connects the settings from config.yaml to the code)
-                - transform.py (contains helps for pose to matrix and viceversa trasnformations)
-                - visualisation.py (adds axes to the given frame.)
-
-        - main.py
-    
+├── assets/
+│   ├── grasps/      # Decoupled grasp dataset files (.h5)
+│   ├── meshes/      # Object mesh files (.obj)
+│   └── urdf/        # Robot models and configurations
+├── configs/
+│   ├── scene.yaml   # Main simulator settings and object parameters
+│   └── joint_limits.yaml 
+└── src/
+    ├── dual_arm/
+    │   ├── dataset/     # Grasp dataset loaders (e.g., dg16m.py)
+    │   ├── grasping/    # Core logic (IK, arm assignment, collision, visualizer)
+    │   ├── simulator/   # PyBullet environment wrappers (world, robots, objects)
+    │   └── utils/       # Helpers (transforms, config parsing, visualization)
+    └── main.py      # Entry point for the simulation
 ```
 
-## How to run:
-- clone the repo first.
-- cd `dual_arm_pybullet`
-- run `uv venv`
-- run `uv sync`
-- run `cd src`
-- run `python main.py`
-- The Pybullet window appears. 
-    ```
-    press k for next acceptable grasp.
-    press j for prev acceptable grasp.
-    press l for random grasp (acceptable and rejected).
-    press a to assign the grasp to the arm highlighted.
+---
 
-    ```
+## 🛠️ Installation & Setup
 
+1. **Clone the repository:**
+   ```bash
+   git clone <your-repo-url>
+   cd dual_arm_pybullet
+   ```
 
-## Pipeline Overview
+2. **Initialize the virtual environment & install dependencies (using `uv`):**
+   ```bash
+   uv venv
+   uv sync
+   ```
 
-1. Load the simulation configuration from `scene.yaml`.
+3. **Run the simulation:**
+   ```bash
+   cd src
+   python main.py
+   ```
 
-2. Create the PyBullet world and initialize the simulation.
+---
 
-3. Load the left and right Panda robots at their respective base positions.
+## 🎮 Controls (PyBullet Window)
 
-4. Initialize inverse kinematics solvers and open both robot grippers.
+Once the simulation starts, use the following keyboard commands to interact with the environment:
 
-5. Spawn the target object into the scene.
+| Key | Action |
+| --- | ------ |
+| **`K`** | Show the **next** collision-free grasp. |
+| **`J`** | Show the **previous** collision-free grasp. |
+| **`L`** | Show a **random** grasp (may be accepted or rejected). |
+| **`A`** | **Assign** the currently displayed grasp to the highlighted arm. |
 
-6. Create a ghost gripper for visualization and a collision gripper for collision checking.
+---
 
-7. Initialize the collision checker between the collision gripper and the object.
+## ⚙️ Pipeline Overview
 
-8. Load all candidate grasps from the DG16M grasp dataset.
+1. **Initialization**: Loads configurations, spawns the PyBullet world, Panda arms, and target object.
+2. **Visualization**: A "ghost gripper" visually represents candidate grasps, while a hidden "collision gripper" checks for physics intersections.
+3. **Exploration**: The user uses `J`, `K`, `L` to cycle through the dataset.
+4. **Assignment**: Pressing `A` assigns a valid grasp to the Left Arm (highlighted green), then switches focus to the Right Arm.
+5. **Execution**: After both arms receive assignments, visualizers are hidden, IK is computed for a "pre-grasp" approach vector, and the arms smoothly transition into place.
 
-9. Create the grasp-to-hand transform that aligns the DG16M grasp frame with the Panda hand frame.
+---
 
-10. Initialize the grasp visualizer using the dataset, object, and gripper models.
+## 📝 Roadmap / To Do
 
-11. Initialize the arm assignment manager.
+- [x] Add self-collision filters individually for each arm.
+- [ ] Establish grasping sequence (approaching the object, closing the grippers, and lifting).
+- [ ] Introduce accurate coefficients of friction for the object and the gripper pads.
 
-12. Highlight the left robot as the active robot for grasp assignment.
+*(See [CHANGELOG.md](CHANGELOG.md) for past updates and fixes).*
 
-13. Display the initial grasp selected in the configuration file.
+---
 
-14. Evaluate the displayed grasp for object penetration and report whether it is valid.
-
-15. Enter the simulation loop and continuously advance the physics simulation.
-
-16. Listen for keyboard inputs to browse candidate grasps.
-
-    * **L** : Show a random grasp.
-    * **K** : Show the next collision-free grasp.
-    * **J** : Show the previous collision-free grasp.
-
-17. Press **A** to assign the currently displayed grasp to the active robot.
-
-18. After the first assignment, switch the active robot from the left arm to the right arm.
-
-19. After both grasps have been assigned, hide the visualization grippers and begin inverse kinematics.
-
-20. Extract the desired hand pose for each robot from the stored assignment.
-
-21. Convert each desired hand orientation from a rotation matrix to a quaternion.
-
-22. Solve inverse kinematics for both Panda robots to obtain joint configurations.
-
-23. Apply the computed joint configurations to both robots, moving them to their assigned grasp poses.
-
-24. Stop the assignment pipeline after both robots reach their target configurations.
-
-
-
-## what all has been done:
-- the environment has been setup. Ghost gripper and colliding gripper has been setup.
-- press j for previous grasp, k for next grasp and l for random grasp in pybullet
-- fixed collision checker.
-- added when pressed next, it will show valid next grasp, same for previous, random  can show anything.
-- grasp index assignment to individual arm done.
-- IK solving is done and arms perfectly reach the grasp
-- The offset that was between ghost gripper and end effector, ive fixed it by hardcoding the translation.
-
-## current bugs / todo:
-- ~~i suspect that the ghost and collider is not synced up, because i can see that the gripper does not collide but in console it rejects it.~~
-- ~~solve IK and make sure that the joint limits are not reaching extremums.~~
-- m~~ove to a pregrasp position and then attempt to have the arms reachout.~~
-- ~~for some reason, the EE pose is behind the ghost gripper visualisation, fix this.~~
-- to add self collision filters. 
-
-## further developments:
-
-- ~~next, to assign which grasp for which arm ~~
-- ~~solve IK~~
-- ~~make sure that the arm reaches the grasp effectively~~
-- establish that the arms can hold the object.
-- introduce coefficient of friction for the object and the gripper.
+<div align="center">
+  <i>Built for Advanced Agentic Robotics Research</i>
+</div>
