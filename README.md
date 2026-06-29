@@ -50,13 +50,15 @@ dual_arm_pybullet/
 ├── configs/
 │   ├── scene.yaml   # Main simulator settings and object parameters
 │   └── joint_limits.yaml 
+├── img/             # Documentation media (GIFs, PNGs)
+├── pyproject.toml   # uv package and dependency management
 └── src/
     ├── dual_arm/
     │   ├── dataset/     # Grasp dataset loaders (e.g., dg16m.py)
-    │   ├── grasping/    # Core logic (IK, arm assignment, collision, visualizer)
-    │   ├── simulator/   # PyBullet environment wrappers (world, robots, objects)
+    │   ├── grasping/    # Logic (IK, arm assignment, collision, visualizer)
+    │   ├── simulator/   # Modular PyBullet environment (world, robots, objects, animation, etc.)
     │   └── utils/       # Helpers (transforms, config parsing, visualization)
-    └── main.py      # Entry point for the simulation
+    └── main.py      # Entry point for the interactive state machine
 ```
 
 ---
